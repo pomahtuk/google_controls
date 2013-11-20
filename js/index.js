@@ -188,7 +188,7 @@
     };
     this.box_circle_Text = document.createElement("div");
     box_circle_Text.style.cssText = "background: #fff";
-    box_circle_Text.innerHTML = "<a href=\"javascript:menu_click()\" class=\"polygon-control delete\">\n  <i class=\"icon-trash\"></i>\n  &nbsp;Delete trigger zone\n</a>\n<a href=\"javascript:menu_click()\" class=\"polygon-control circle\">\n  <i class=\"icon-circle-blank\"></i>\n  &nbsp;Convert to circle\n</a>";
+    box_circle_Text.innerHTML = "<a href=\"javascript:menu_click()\" class=\"polygon-control delete\">\n  <i class=\"icon-trash\"></i>\n  &nbsp;Delete trigger zone\n</a>\n<a href=\"javascript:menu_click()\" class=\"polygon-control circle\">\n  <i class=\"icon-star-empty\"></i>\n  &nbsp;Convert to polygon\n</a>";
     this.boxText = document.createElement("div");
     boxText.style.cssText = "background: #fff";
     boxText.innerHTML = "<a href=\"javascript:menu_click()\" class=\"polygon-control delete\">\n  <i class=\"icon-trash\"></i>\n  &nbsp;Delete trigger zone\n</a>";

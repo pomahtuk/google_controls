@@ -209,8 +209,8 @@ initialize = ->
       &nbsp;Delete trigger zone
     </a>
     <a href="javascript:menu_click()" class="polygon-control circle">
-      <i class="icon-circle-blank"></i>
-      &nbsp;Convert to circle
+      <i class="icon-star-empty"></i>
+      &nbsp;Convert to polygon
     </a>
   """
 
