@@ -6,7 +6,7 @@
   });
 
   initialize = function() {
-    var boxText, circleOptions, demo_circle_processor, mapOptions, myOptions, polygon_event_processor, triangleCoords;
+    var circleOptions, demo_circle_processor, demo_rectangle_process, mapOptions, myOptions, polygon_event_processor, reset_infobox, triangleCoords;
     mapOptions = {
       center: new google.maps.LatLng(44.5452, -78.5389),
       zoom: 5
@@ -92,28 +92,26 @@
         return this.setIcon(delete_active_icon);
       }
     });
-    google.maps.event.addListener(rectangle, 'mousedown', function() {
+    demo_rectangle_process = function() {
+      info_box_dropdown.setContent(boxText);
       if (!polygon_control.getMap()) {
         polygon_control.setMap(map);
       }
-      return polygon_control.setPosition(this.getBounds().getNorthEast());
+      return polygon_control.setPosition(rectangle.getBounds().getNorthEast());
+    };
+    google.maps.event.addListener(rectangle, 'mousedown', function() {
+      return demo_rectangle_process();
     });
     google.maps.event.addListener(rectangle, "bounds_changed", function() {
-      if (!polygon_control.getMap()) {
-        polygon_control.setMap(map);
-      }
-      return polygon_control.setPosition(this.getBounds().getNorthEast());
+      return demo_rectangle_process();
     });
     google.maps.event.addListener(rectangle, "mouseover", function() {
-      info_box_dropdown.close();
-      polygon_control.setIcon(delete_icon);
-      if (!polygon_control.getMap()) {
-        polygon_control.setMap(map);
-      }
-      return polygon_control.setPosition(this.getBounds().getNorthEast());
+      demo_rectangle_process();
+      return reset_infobox();
     });
     demo_circle_processor = function() {
       var center, right;
+      info_box_dropdown.setContent(box_circle_Text);
       center = demoCircle.getCenter();
       right = demoCircle.getBounds().getNorthEast();
       if (!polygon_control.getMap()) {
@@ -122,8 +120,7 @@
       return polygon_control.setPosition(new google.maps.LatLng(center.lat(), right.lng()));
     };
     google.maps.event.addListener(demoCircle, 'mouseover', function() {
-      info_box_dropdown.close();
-      polygon_control.setIcon(delete_icon);
+      reset_infobox();
       return demo_circle_processor();
     });
     google.maps.event.addListener(demoCircle, "mouseup", function() {
@@ -145,6 +142,7 @@
     });
     polygon_event_processor = function(polygon) {
       var poins_array;
+      info_box_dropdown.setContent(boxText);
       poins_array = [];
       bermudaTriangle.getPath().forEach(function(latLng) {
         return poins_array.push(latLng);
@@ -178,16 +176,22 @@
       if (polygon_control.getMap()) {
         polygon_control.setMap(void 0);
       }
-      polygon_control.setIcon(delete_icon);
-      return info_box_dropdown.close();
+      return reset_infobox();
     });
+    reset_infobox = function() {
+      info_box_dropdown.close();
+      return polygon_control.setIcon(delete_icon);
+    };
     this.menu_click = function() {
       polygon_control.setIcon(delete_icon);
       return info_box_dropdown.close();
     };
-    boxText = document.createElement("div");
+    this.box_circle_Text = document.createElement("div");
+    box_circle_Text.style.cssText = "background: #fff";
+    box_circle_Text.innerHTML = "<a href=\"javascript:menu_click()\" class=\"polygon-control delete\">\n  <i class=\"icon-trash\"></i>\n  &nbsp;Delete trigger zone\n</a>\n<a href=\"javascript:menu_click()\" class=\"polygon-control circle\">\n  <i class=\"icon-circle-blank\"></i>\n  &nbsp;Convert to circle\n</a>";
+    this.boxText = document.createElement("div");
     boxText.style.cssText = "background: #fff";
-    boxText.innerHTML = "<a href=\"javascript:menu_click()\" class=\"polygon-control delete\">\n  <i class=\"icon-trash\"></i>\n  &nbsp;Delete trigger zone\n</a>\n<a href=\"javascript:menu_click()\" class=\"polygon-control circle\">\n  <i class=\"icon-circle-blank\"></i>\n  &nbsp;Convert to circle\n</a>\n<a href=\"javascript:menu_click()\" class=\"polygon-control smile\">\n  <i class=\"icon-star-empty\"></i>\n  &nbsp;Convert to polygon\n</a>";
+    boxText.innerHTML = "<a href=\"javascript:menu_click()\" class=\"polygon-control delete\">\n  <i class=\"icon-trash\"></i>\n  &nbsp;Delete trigger zone\n</a>";
     myOptions = {
       content: boxText,
       disableAutoPan: false,

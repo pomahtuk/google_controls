@@ -108,22 +108,26 @@ initialize = ->
     # alert "clicked! action nedeed"
 
   ## event listeners for rectangle
-  google.maps.event.addListener rectangle, 'mousedown', ->
+
+  demo_rectangle_process = ->
+    info_box_dropdown.setContent boxText
     polygon_control.setMap map unless polygon_control.getMap()
-    polygon_control.setPosition @getBounds().getNorthEast()
+    polygon_control.setPosition rectangle.getBounds().getNorthEast()
+
+  google.maps.event.addListener rectangle, 'mousedown', ->
+    demo_rectangle_process()
 
   google.maps.event.addListener rectangle, "bounds_changed", ->
-    polygon_control.setMap map unless polygon_control.getMap()
-    polygon_control.setPosition @getBounds().getNorthEast()
+    demo_rectangle_process()
 
   google.maps.event.addListener rectangle, "mouseover", ->
-    info_box_dropdown.close()
-    polygon_control.setIcon delete_icon
-    polygon_control.setMap map unless polygon_control.getMap()
-    polygon_control.setPosition @getBounds().getNorthEast()
+    demo_rectangle_process()
+    reset_infobox()
+
 
   ## event listeners for circle
   demo_circle_processor = ->
+    info_box_dropdown.setContent box_circle_Text
     center = demoCircle.getCenter()
     right  = demoCircle.getBounds().getNorthEast()
 
@@ -131,8 +135,7 @@ initialize = ->
     polygon_control.setPosition new google.maps.LatLng(center.lat(), right.lng())
 
   google.maps.event.addListener demoCircle, 'mouseover', ->
-    info_box_dropdown.close()
-    polygon_control.setIcon delete_icon
+    reset_infobox()
     demo_circle_processor()
 
   google.maps.event.addListener demoCircle, "mouseup", ->
@@ -152,6 +155,7 @@ initialize = ->
     polygon_control.setMap map unless polygon_control.getMap()
 
   polygon_event_processor = (polygon)->
+    info_box_dropdown.setContent boxText
     poins_array = []
     # first of all - create points array
     bermudaTriangle.getPath().forEach (latLng) ->
@@ -184,19 +188,22 @@ initialize = ->
   # map listeners
   google.maps.event.addListener map, "click", ->
     polygon_control.setMap undefined if polygon_control.getMap()
-    polygon_control.setIcon delete_icon
-    info_box_dropdown.close()
+    reset_infobox()
 
   ## infobox
 
   #demo puprose hack
+  reset_infobox = ->
+    info_box_dropdown.close()
+    polygon_control.setIcon delete_icon
+
   @menu_click = () ->
     polygon_control.setIcon delete_icon
     info_box_dropdown.close()
 
-  boxText = document.createElement("div")
-  boxText.style.cssText = "background: #fff"
-  boxText.innerHTML = """
+  @box_circle_Text = document.createElement("div")
+  box_circle_Text.style.cssText = "background: #fff"
+  box_circle_Text.innerHTML = """
     <a href="javascript:menu_click()" class="polygon-control delete">
       <i class="icon-trash"></i>
       &nbsp;Delete trigger zone
@@ -205,11 +212,17 @@ initialize = ->
       <i class="icon-circle-blank"></i>
       &nbsp;Convert to circle
     </a>
-    <a href="javascript:menu_click()" class="polygon-control smile">
-      <i class="icon-star-empty"></i>
-      &nbsp;Convert to polygon
+  """
+
+  @boxText = document.createElement("div")
+  boxText.style.cssText = "background: #fff"
+  boxText.innerHTML = """
+    <a href="javascript:menu_click()" class="polygon-control delete">
+      <i class="icon-trash"></i>
+      &nbsp;Delete trigger zone
     </a>
   """
+
   myOptions =
     content: boxText
     disableAutoPan: false
