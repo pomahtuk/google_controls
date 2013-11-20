@@ -1,0 +1,23 @@
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/ilja\/Desktop\/google_controls\/css\/main\.sass}line{font-family:\000031}}
+html, body {
+  height: 100%;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/ilja\/Desktop\/google_controls\/css\/main\.sass}line{font-family:\000034}}
+#map-canvas {
+  height: 100%;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/ilja\/Desktop\/google_controls\/css\/main\.sass}line{font-family:\000037}}
+a.polygon-control {
+  display: block;
+  font-size: 14px;
+  line-height: 24px;
+  padding: 0px 5px;
+  color: #111111;
+  text-decoration: none;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/Users\/ilja\/Desktop\/google_controls\/css\/main\.sass}line{font-family:\0000316}}
+a.polygon-control:hover {
+  background: #eeeeee;
+}
